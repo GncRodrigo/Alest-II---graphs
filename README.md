@@ -1,2 +1,2 @@
-# Alest-II---graphs
-making a assingment to the discipline alest II.The the theme is graphs
+T2 - ALest II
+Este projeto implementa um algoritmo de BFS baseado na ideia de resolução de labirintos utilizada por micromouses, a ideia é percorrer o labirinto por onde é possivel e guardar as distancias entre os pontos.
