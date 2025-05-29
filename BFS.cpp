@@ -79,6 +79,8 @@ int floodFill(string filename) { // não esquece de mandar com .txt, se achar ru
 }
 
 int main(){ //fiz isso pra ficar mais facil de rodar todos os testes
-    string filename = "caso0050.txt";
-    cout <<"caso0050: "<< floodFill(filename);
+    cout << "qual o arquivo?" << endl;
+    string filename;
+    cin >> filename ;
+    cout << endl <<"caso0050: "<< floodFill(filename) << endl;
 }
