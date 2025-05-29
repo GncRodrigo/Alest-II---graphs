@@ -15,7 +15,7 @@ int floodFill(string filename) { // não esquece de mandar com .txt, se achar ru
     ifstream file(filename); 
 
     if (!file.is_open()) {
-        cerr << "Não abriu" << endl;
+        cerr << "Nao foi possivel localizar o arquivo, confira se o nome do arquivo esta correto e se ele esta na mesma pasta." << endl;
         return -1;
     }
 
@@ -24,15 +24,15 @@ int floodFill(string filename) { // não esquece de mandar com .txt, se achar ru
 
     vector<string> grid(linhas); // gridzada dos guris
 
-    for (int i = 0; i < linhas; ++i) { // vai preenchendo o labrinto
+    for (int i = 0; i < linhas; ++i) { // vai preenchendo
         file >> grid[i];
     }
     file.close();// fecha pra não deixar abrido
 
-    int startX =0, startY = 0; // cords. do S
+    int startX = 0, startY = 0; // cords. do S
 
-    const int INF = 1000000000; // numero g.p.c
-    vector<vector<int>> dist(linhas, vector<int>(colunas, INF)); // distancias
+    const int GPC = 1000000000; // numero g.p.c
+    vector<vector<int>> dist(linhas, vector<int>(colunas, GPC));
     queue<Pos> fila;
 
     dist[startX][startY] = 0; 
@@ -49,22 +49,22 @@ int floodFill(string filename) { // não esquece de mandar com .txt, se achar ru
         if (altura == 'S') altura = 'a'; // S = a
 
         for (int d = 0; d < 8; ++d) { // verifica os vizinhos, usa o esquema que eu desenhei
-            int nx = x + dx[d];
-            int ny = y + dy[d];
+            int vx = x + dx[d]; //pega o (x,y) do que estamos testando e soma com cada um dos pares (x,y) que servem pra achar os vizinhos
+            int vy = y + dy[d];
 
-            if (nx >= 0 && nx < linhas && ny >= 0 && ny < colunas) {
-                char alturaVizinho = grid[nx][ny]; // pega a altura do vizinho pra comparar se pode ir ou não
+            if (vx >= 0 && vx < linhas && vy >= 0 && vy < colunas) {
+                char alturaVizinho = grid[vx][vy]; // pega a altura do vizinho pra comparar se pode ir ou não
                 if (alturaVizinho == 'S') alturaVizinho = 'a';
 
-                if (dist[nx][ny] == INF && (alturaVizinho <= altura + 1)) { // confere se ele ainda não foi visitado e se pode ir nele
-                    dist[nx][ny] = dist[x][y] + 1;
-                    fila.push({nx, ny});
+                if (dist[vx][vy] == GPC && (alturaVizinho <= altura + 1)) { // confere se ele ainda não foi visitado e se pode ir nele
+                    dist[vx][vy] = dist[x][y] + 1;
+                    fila.push({vx, vy});
                 }
             }
         }
     }
 
-    int menorCaminho = INF; // começa com um numero g.p.c e passa por todos em busca do menor caminho existente pra algum z, ele vai chechar todos os z
+    int menorCaminho = GPC; // começa com um numero g.p.c e passa por todos em busca do menor caminho existente pra algum z, ele vai chechar todos os z
     for (int i = 0; i < linhas; ++i) { 
         for (int j = 0; j < colunas; ++j) {
             if (grid[i][j] == 'z') {
@@ -75,12 +75,54 @@ int floodFill(string filename) { // não esquece de mandar com .txt, se achar ru
         }
     }
 
-    return ((menorCaminho == INF )? -1 : menorCaminho);
+    return ((menorCaminho == GPC )? -1 : menorCaminho);
 }
 
 int main(){ //fiz isso pra ficar mais facil de rodar todos os testes
-    cout << "qual o arquivo?" << endl;
-    string filename;
-    cin >> filename ;
-    cout << endl <<"caso0050: "<< floodFill(filename) << endl;
-}
+        string filename;
+        char enable_start = 0;
+        cout << "Solucao do T2 de Alest II - Feito por Lucas G. e Rodrigo M. " << endl
+             << "Deseja comecar? (S/N)  ";
+        cin >> enable_start;
+        if( enable_start == 'S' || enable_start == 's'){
+            for(int i = 0; i < 9; i++) {
+                switch (i) {
+                    case 0:
+                        filename = "caso0050.txt";
+                        cout << endl << "caso0050: " << floodFill(filename) << endl;
+                        break;
+                    case 1:
+                        filename = "caso0100.txt";
+                        cout << endl << "caso0100: " << floodFill(filename) << endl;
+                        break;
+                    case 2:
+                        filename = "caso0200.txt";
+                        cout << endl << "caso0200: " << floodFill(filename) << endl;
+                        break;
+                    case 3:
+                        filename = "caso0400.txt";
+                        cout << endl << "caso0400: " << floodFill(filename) << endl;
+                        break;
+                    case 4:
+                        filename = "caso0800.txt";
+                        cout << endl << "caso0800: " << floodFill(filename) << endl;
+                        break;
+                    case 5:
+                        filename = "caso1000.txt";
+                        cout << endl << "caso1000: " << floodFill(filename) << endl;
+                        break;
+                    case 6:
+                        filename = "caso1500.txt";
+                        cout << endl << "caso1500: " << floodFill(filename) << endl;
+                        break;
+                    case 7:
+                        filename = "caso2000.txt";
+                        cout << endl << "caso2000: " << floodFill(filename) << endl;
+                        break;
+                    default:
+                        break;
+                }   
+            } 
+        }  else cout << "Fim. "; 
+
+}   
